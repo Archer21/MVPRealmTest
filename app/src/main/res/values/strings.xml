@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MVPExample</string>
+    <string name="note_title_hint">Note title</string>
+    <string name="note_body_hint">Note body</string>
+    <string name="note_item_body">Today I discover a great song, will buy it in the official Klab site :)</string>
+    <string name="note_item_date">Dom 11/12/2-16 11:34 p.m</string>
+</resources>
