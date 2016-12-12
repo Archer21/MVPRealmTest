@@ -16,22 +16,28 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private NoteAdapter adapter;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        realm = Realm.getDefaultInstance();
         setupList();
-        dummieNotes();
+        setupNotes();
+//        dummieNotes();
     }
 
     public void setupList () {
         recyclerView = (RecyclerView) findViewById(R.id.notes_recycler_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, true));
         adapter = new NoteAdapter(MainActivity.this);
         recyclerView.setAdapter(adapter);
     }
@@ -41,20 +47,37 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void dummieNotes () {
-        ArrayList<Note> notes = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            Note note = new Note();
-            note.setTitle("Note " + i);
-            note.setBody("Body for note " + i);
-            note.setDate(new Date().toString());
-            notes.add(note);
+    public void setupNotes () {
+        RealmResults<Note> results = getRealm().where(Note.class).findAll();
+        if (results != null) {
+            adapter.addAll(results);
         }
-
-        adapter.addAll(notes);
-
     }
+
+    public Realm getRealm () {
+        return realm;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
+    //    public void dummieNotes () {
+//        ArrayList<Note> notes = new ArrayList<>();
+//
+//        for (int i = 0; i < 10; i++) {
+//            Note note = new Note();
+//            note.setTitle("Note " + i);
+//            note.setBody("Body for note " + i);
+//            note.setDate(new Date().toString());
+//            notes.add(note);
+//        }
+//
+//        adapter.addAll(notes);
+//
+//    }
 }
 
 

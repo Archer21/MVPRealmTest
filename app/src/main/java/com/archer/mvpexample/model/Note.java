@@ -2,11 +2,13 @@ package com.archer.mvpexample.model;
 
 import java.util.Date;
 
+import io.realm.RealmObject;
+
 /**
  * Created by alanaliaga on 11/12/16.
  */
 
-public class Note {
+public class Note extends RealmObject{
     private String title;
     private String date;
     private String body;
@@ -34,15 +36,6 @@ public class Note {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    @Override
-    public String toString() {
-        return "Note{" +
-                "title='" + title + '\'' +
-                ", date='" + date + '\'' +
-                ", body='" + body + '\'' +
-                '}';
     }
 
 }

@@ -12,16 +12,20 @@ import com.archer.mvpexample.model.Note;
 
 import java.util.Date;
 
+import io.realm.Realm;
+
 public class CreateNote extends AppCompatActivity {
 
     private TextView noteTitle;
     private Date noteDate;
     private TextView noteBody;
+    public Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
+        realm = Realm.getDefaultInstance();
 
         noteTitle = (TextView) findViewById(R.id.note_title_text);
         noteBody  = (TextView) findViewById(R.id.note_body_text);
@@ -34,20 +38,30 @@ public class CreateNote extends AppCompatActivity {
         String body  = noteBody.getText().toString();
         String date  = noteDate.toString();
 
-        Note note = new Note();
+        final Note note = new Note();
         note.setTitle(title);
         note.setBody(body);
         note.setDate(date);
 
+        getRealm().executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                getRealm().copyToRealm(note);
+            }
+        });
 
-        Toast.makeText(CreateNote.this, note.toString(), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(CreateNote.this, MainActivity.class);
+        startActivity(intent);
+    }
 
-//        Intent intent = new Intent(CreateNote.this, MainActivity.class);
-//        Bundle createdNote = new Bundle();
-//        createdNote.putString("TITLE", title);
-//        createdNote.putString("DATE", date);
-//        createdNote.putString("BODY", body);
-//        startActivity(intent);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
+    public Realm getRealm () {
+        return realm;
     }
 }
 
