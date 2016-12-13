@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.archer.mvpexample.R;
+import com.archer.mvpexample.common.BaseActivity;
 import com.archer.mvpexample.model.Note;
+import com.archer.mvpexample.mvp.viewmodel.NoteViewModel;
 import com.archer.mvpexample.ui.adapter.NoteAdapter;
 
 import java.lang.reflect.Array;
@@ -19,17 +22,17 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements NoteViewModel{
+
+    public String LOG_TAG = MainActivity.this.getClass().getSimpleName();
 
     private RecyclerView recyclerView;
     private NoteAdapter adapter;
-    private Realm realm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        realm = Realm.getDefaultInstance();
         setupList();
         setupNotes();
 //        dummieNotes();
@@ -54,14 +57,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Realm getRealm () {
-        return realm;
+    @Override
+    public void logResults() {
+        RealmResults<Note> results = getRealm().where(Note.class).findAll();
+        Log.e(LOG_TAG, "results: "+ results);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
+    public void showResults(NoteAdapter adapter) {
+
+    }
+
+    @Override
+    public int getView() {
+        return R.layout.activity_main;
     }
 
     //    public void dummieNotes () {
