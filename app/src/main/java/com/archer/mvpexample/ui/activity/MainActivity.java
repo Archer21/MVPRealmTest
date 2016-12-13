@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.archer.mvpexample.R;
 import com.archer.mvpexample.common.BaseActivity;
+import com.archer.mvpexample.common.BasePresenter;
 import com.archer.mvpexample.model.Note;
 import com.archer.mvpexample.mvp.viewmodel.NoteViewModel;
 import com.archer.mvpexample.ui.adapter.NoteAdapter;
@@ -22,7 +23,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends BaseActivity implements NoteViewModel{
+public class MainActivity extends BaseActivity {
 
     public String LOG_TAG = MainActivity.this.getClass().getSimpleName();
 
@@ -36,6 +37,16 @@ public class MainActivity extends BaseActivity implements NoteViewModel{
         setupList();
         setupNotes();
 //        dummieNotes();
+    }
+
+    @Override
+    public int getView() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public BasePresenter getPresenter() {
+        return null;
     }
 
     public void setupList () {
@@ -57,21 +68,7 @@ public class MainActivity extends BaseActivity implements NoteViewModel{
         }
     }
 
-    @Override
-    public void logResults() {
-        RealmResults<Note> results = getRealm().where(Note.class).findAll();
-        Log.e(LOG_TAG, "results: "+ results);
-    }
 
-    @Override
-    public void showResults(NoteAdapter adapter) {
-
-    }
-
-    @Override
-    public int getView() {
-        return R.layout.activity_main;
-    }
 
     //    public void dummieNotes () {
 //        ArrayList<Note> notes = new ArrayList<>();

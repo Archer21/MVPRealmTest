@@ -32,4 +32,33 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
     public abstract int getView();
+
+    public abstract BasePresenter getPresenter ();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

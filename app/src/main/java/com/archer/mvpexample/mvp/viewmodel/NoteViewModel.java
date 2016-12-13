@@ -1,5 +1,6 @@
 package com.archer.mvpexample.mvp.viewmodel;
 
+import com.archer.mvpexample.model.Note;
 import com.archer.mvpexample.ui.adapter.NoteAdapter;
 
 /**
@@ -8,5 +9,27 @@ import com.archer.mvpexample.ui.adapter.NoteAdapter;
 
 public interface NoteViewModel {
     void logResults();
-    void showResults(NoteAdapter adapter);
+    void showResults();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
